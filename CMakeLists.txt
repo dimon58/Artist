@@ -16,6 +16,7 @@ if (CURL_FOUND)
     add_definitions(-DHAVE_CURL)
 endif()
 
+add_subdirectory(libs/tgbot-cpp)
 add_executable(Artist main.cpp services/upscale.cpp services/upscale.h settings.h services/utils.h services/utils.cpp handlers/handlers.h handlers/handlers.cpp handlers/base.h handlers/base.cpp handlers/nns.h handlers/nns.cpp)
 
-target_link_libraries(Artist /usr/local/lib/libTgBot.a ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES})
+target_link_libraries(Artist TgBot ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES})

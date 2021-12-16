@@ -1,5 +1,8 @@
 #!/bin/sh
 
+apt-get -qq update &&
+  apt-get -qq install -y ffmpeg libsm6 libxext6
+
 . ./venv/bin/activate
 
 cd services/nns
@@ -15,6 +18,11 @@ python setup.py develop
 cd ..
 cd ..
 cd ..
+
+# RealESRGAN
+if [ ! -f "services/nns/pretrained_models/RealESRNet_x4plus.pth" ]; then
+  wget "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/RealESRNet_x4plus.pth" -P "services/nns/pretrained_models"
+fi
 
 # neural network working with faces (~100+350 MB)
 if [ ! -f "venv/lib/python3.9/site-packages/facexlib/weights/detection_Resnet50_Final.pth" ]; then
