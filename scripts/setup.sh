@@ -31,5 +31,13 @@ sh scripts/get_rudalle.sh
 
 #######################################################################################################################
 
-cmake .
+mkdir "libs"
+mkdir "services/nns/pretrained_models"
+
+mkdir "tmp"
+mkdir "tmp/input"
+mkdir "tmp/output"
+
+
+#cmake .
 #make -j$(nproc)
