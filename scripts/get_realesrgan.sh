@@ -19,6 +19,9 @@ cd ..
 cd ..
 cd ..
 
+
+# download pretrained models
+
 # RealESRGAN
 if [ ! -f "services/nns/pretrained_models/RealESRNet_x4plus.pth" ]; then
   wget "https://github.com/xinntao/Real-ESRGAN/releases/download/v0.1.1/RealESRNet_x4plus.pth" -P "services/nns/pretrained_models"
