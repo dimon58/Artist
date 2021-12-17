@@ -1,6 +1,11 @@
 # -*- coding: utf-8 -*-
 import os
-from path import Path
+
+try:
+    from path import Path
+except ModuleNotFoundError:
+    from pathlib import Path
+
 from huggingface_hub import hf_hub_url, cached_download
 
 from rudalle.dalle import MODELS
