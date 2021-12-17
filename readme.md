@@ -41,7 +41,7 @@ TODO
 1. Запустить скрипт, который установит все зависимости
 
    ```shell
-   sh scripts/setup.sh
+   sudo sh scripts/setup.sh
    ```
 
 4. Сборка проекта

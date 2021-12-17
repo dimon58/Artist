@@ -6,3 +6,4 @@ apt-get -qq update &&
 cd libs
 git clone https://github.com/reo7sp/tgbot-cpp
 git clone https://github.com/adeharo9/cpp-dotenv.git
+git clone https://github.com/gabime/spdlog.git

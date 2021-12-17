@@ -6,5 +6,3 @@ std::string exec(const char *cmd);
 
 // Костыль
 std::string get_current_path();
-
-
