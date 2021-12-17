@@ -26,7 +26,7 @@ python3.9 -m venv venv &&
 
 #######################################################################################################################
 
-sh scripts/get_tgbotlib.sh
+sh scripts/get_cpplibs.sh.sh
 sh scripts/get_realesrgan.sh
 sh scripts/get_rudalle.sh
 

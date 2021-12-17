@@ -4,16 +4,18 @@
 #include <cstdlib>
 #include <iostream>
 
+#include "dotenv.h"
+
 #include "handlers/handlers.h"
 #include "services/utils.h"
-
-#include "settings.h"
 
 
 int main() {
     std::cout << "CURRENT_PATH " << get_current_path() << std::endl;
 
-    TgBot::Bot bot(BOT_TOKEN);
+    auto &env = dotenv::env.load_dotenv(get_current_path() + ".env");
+
+    TgBot::Bot bot(env["BOT_TOKEN"]);
 
     RegisterHandlers(bot);
 
