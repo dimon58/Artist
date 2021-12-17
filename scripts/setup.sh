@@ -36,9 +36,7 @@ mkdir "libs"
 mkdir "services/nns/pretrained_models"
 
 mkdir "tmp"
-mkdir "tmp/input"
-mkdir "tmp/output"
+mkdir "tmp/inputs"
+mkdir "tmp/outputs"
 
-
-#cmake .
-#make -j$(nproc)
+mkdir "logs"
