@@ -53,16 +53,24 @@ void RegisterNNSHandlers(TgBot::Bot &bot) {
             return;
         }
 
-        bot.getApi().sendMessage(message->chat->id, "Start upscaling");
+        bot.getApi().sendMessage(message->chat->id, "Запуск улучшения");
         bot.getApi().sendMessage(message->chat->id, get_approx_time(w, h));
 
 
         logger->debug("Start upscaling. File id: {}", file_id);
+        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
         upscale(
                 input_image,
                 CURRENT_PATH + TEMP_FOLDER + "outputs",
                 "\"\"",
                 "\"\""
+        );
+        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+        logger->debug(
+                "{} sec packed in a image with a size of {}x{} = {} KPX",
+                (float) std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000,
+                w, h, (float) (w * h) / 1000
         );
         logger->debug("Upscaling complete. Most likely saved to {}. File id: {}", output_image, file_id);
 

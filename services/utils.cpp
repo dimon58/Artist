@@ -3,20 +3,26 @@
 
 #include "utils.h"
 
+#include "../settings.h"
+
 std::string get_approx_time(int w, int h) {
-    int time = w * h * 155 / (960 * 1280);
+
+    double a = 0.024538 * GPU_FP32_PERFORMANCE / 1.911;
+    double b = 9.79244;
+
+    int time = (int) ((double) w * (double) h * a / 1000 + b);
 
     int seconds = time % 60;
     int minutes = time / 60;
 
-    std::string approx_time = "Expected time";
+    std::string approx_time = "Ожидаемое время";
 
     if (minutes > 0) {
-        approx_time += " " + std::to_string(minutes) + " min";
+        approx_time += " " + std::to_string(minutes) + " мин";
     }
 
     if (seconds > 0) {
-        approx_time += " " + std::to_string(seconds) + " sec";
+        approx_time += " " + std::to_string(seconds) + " сек";
     }
 
     return approx_time;

@@ -1,5 +1,6 @@
 #pragma once
 
+#define GPU_FP32_PERFORMANCE 1.911
 
 #define TEMP_FOLDER "tmp/"
 
