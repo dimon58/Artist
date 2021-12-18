@@ -14,9 +14,70 @@
 
 
 const std::string CURRENT_PATH = get_current_path();
+const std::string RUDALLE_PATH = CURRENT_PATH + "services/nns/inference_rudalle.py";
 
 
 void RegisterNNSHandlers(TgBot::Bot &bot) {
+
+
+    bot.getEvents().onCommand("draw", [&bot](const TgBot::Message::Ptr &message) {
+        auto logger = spdlog::get("Handlers");
+        logger->info("Draw \"{}\" request by {}", message->text, message->chat->username);
+
+        if (message->text.size() == 5) {
+            bot.getApi().sendMessage(message->chat->id, "Напишите описание изображения. /draw *описание*");
+            return;
+        }
+
+        std::string text = message->text.substr(6, message->text.size() - 6);
+
+        boost::uuids::uuid uuid = boost::uuids::random_generator()();
+        std::string str = to_string(uuid);
+
+        std::string image = "image_" + str + ".jpg";
+        std::string image_path = CURRENT_PATH + TEMP_FOLDER + image;
+
+        std::string cmd = ". " + CURRENT_PATH + "venv/bin/activate && " +
+                          "python " + RUDALLE_PATH +
+                          " -t " + text +
+                          " -o " + image_path;
+
+        bot.getApi().sendMessage(message->chat->id, "Скорее всего рисование идет на процессоре, поэтому ждите час");
+
+
+        logger->debug("Call services/nns/inference_rudalle.py with text {}", text);
+
+        std::chrono::steady_clock::time_point begin = std::chrono::steady_clock::now();
+        system(cmd.c_str());
+        std::chrono::steady_clock::time_point end = std::chrono::steady_clock::now();
+
+        logger->debug(
+                "Image {} generated in {} sec", image,
+                (float) std::chrono::duration_cast<std::chrono::milliseconds>(end - begin).count() / 1000
+        );
+        logger->debug("Drawing {} complete", image);
+
+        try {
+            bot.getApi().sendPhoto(
+                    message->chat->id,
+                    TgBot::InputFile::fromFile(
+                            image_path, "image/jpeg"
+                    )
+            );
+        }
+        catch (const std::ios_base::failure &) {
+            logger->error("Drawing error: output file {} couldn't be loaded", image_path);
+            bot.getApi().sendMessage(
+                    message->chat->id,
+                    "Ошибка при рисовании изображения, свяжитесь с техподдержкой, которой нет."
+            );
+        }
+
+        logger->debug("Deleting temp files from drawing");
+        remove(image_path.c_str());
+
+    });
+
 
     bot.getEvents().onAnyMessage([&bot](const TgBot::Message::Ptr &message) {
         if (message->photo.empty()) {
