@@ -8,11 +8,11 @@
 
 # Использование
 
-TODO
+Смотри `static/help.md`
 
 # Требования к системе
 
-1. Операционная система **Linux**
+1. Лучше всего будет операционная система **Linux**
 
 2. Наличие видеокарты от NVIDIA с поддержкой cuda 11.3 и объёмом памяти 6 гб
 
@@ -21,7 +21,7 @@ TODO
 
 3. [CUDA Toolkit 11.3](https://developer.nvidia.com/cuda-11.3.0-download-archive)
 
-4. Около 5.5 Гб места на диске
+4. Около 9 Гб места на диске
 
 # Зависимости
 
@@ -36,6 +36,7 @@ TODO
    изображении
 6. Предобученная нейросеть [RetinaFace](https://github.com/TencentARC/GFPGAN) для выделения лиц на изображении
 
+7. Еще некоторые более маленькие библиотеки: логрирования и работы с виртуальным окружением(которая создает сверхогромный оверхед, но пусть будет)
 # Установка и запуск
 
 1. Запустить скрипт, который установит все зависимости
@@ -44,15 +45,31 @@ TODO
    sudo sh scripts/setup.sh
    ```
 
-4. Сборка проекта
+2. Сборка проекта
 
    ```shell
    cmake .
    make -j$(nproc)
    ```
 
-5. Запуск
+3. Запуск
 
    ```shell
    ./Artist
    ```
+
+# Запуск через Docker
+
+Для этого должен быть установлен [Docker](https://www.docker.com/) и [NVIDIA Container Toolkit](https://github.com/NVIDIA/nvidia-docker)
+
+1. Сборка образа (получится около 11.5 ГБ, скорость выполнения напрямую зависит от скорости интернета, так как докеру надо будет выкачать около 5 ГБ из сети)
+
+   `docker build -t artist_bot .`
+
+2. Запуск
+
+   `docker run --rm --gpus all --name artist_bot_container -v artist_bot_logs:/usr/src/app/logs artist_bot`
+
+3. Остановка
+
+   `docker stop artist_bot_container`
